@@ -17,12 +17,6 @@ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubun
 sudo apt-get update
 sudo apt-get install docker-ce -y
 
-# Azure CLI
-echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main" | sudo tee /etc/apt/sources.list.d/azure-cli.list
-sudo apt-key adv --keyserver packages.microsoft.com --recv-keys 417A0893
-sudo apt-get install apt-transport-https
-sudo apt-get update && sudo apt-get install azure-cli
-
 # Kubectl
 cd /tmp/
 sudo curl -kLO https://storage.googleapis.com/kubernetes-release/release/v1.8.0/bin/linux/amd64/kubectl
@@ -31,6 +25,5 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 
 # Configure access
 usermod -aG docker jenkins
-usermod -aG docker azureuser
 sudo touch /var/lib/jenkins/jenkins.install.InstallUtil.lastExecVersion
 service jenkins restart
