@@ -40,7 +40,7 @@ pipeline {
          steps {
             sh(script: """
                chmod +x ./tests/test_sample.py
-               ./tests/test_sample.py
+               pytest ./tests/test_sample.py
             """)
          }
       }
