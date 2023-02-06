@@ -54,7 +54,7 @@ pipeline {
       stage('Run Trivy') {
          steps {
             sh(script: """
-               trivy blackdentech/jenkins-course
+               trivy image blackdentech/jenkins-course
             """)
          }
       }
