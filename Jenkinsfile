@@ -51,11 +51,24 @@ pipeline {
             """)
          }
       }
-      stage('Run Trivy') {
-         steps {
-            sh(script: """
-               trivy image blackdentech/jenkins-course
-            """)
+       stage('Container Scanning') {
+         parallel {
+            stage('Run Anchore') {
+               steps {
+                  sh(script: """
+                     echo "blackdentech/jenkins-course" > anchore_images
+                  """)
+                  anchore bailOnFail: false, bailOnPluginFail: false, name: 'anchore_images'
+               }
+            }
+            stage('Run Trivy') {
+               steps {
+                  sleep(time: 30, unit: 'SECONDS')
+                  // sh(script: """
+                  // trivy image blackdentech/jenkins-course
+                  // """)
+               }
+            }
          }
       }
       
