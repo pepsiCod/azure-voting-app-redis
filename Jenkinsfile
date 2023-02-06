@@ -12,6 +12,7 @@ pipeline {
             sh(script: 'docker images -a')
             sh(script: """
                cd azure-vote/
+               docker images -a
                docker build -t jenkins-pipeline .
                docker images -a
                cd ..
@@ -22,7 +23,8 @@ pipeline {
          steps {
             sh(script: """
                docker-compose up -d
-               sudo ./scripts/test_container.sh
+               chmod +x ./scripts/test_container.sh
+               ./scripts/test_container.sh
             """)
          }
          post {
@@ -34,7 +36,14 @@ pipeline {
             }
          }
       }
-      
+      stage('Run Tests') {
+         steps {
+            sh(script: """
+               chmod +x ./tests/test_sample.py
+               pytest ./tests/test_sample.py
+            """)
+         }
+      }
       stage('Stop test app') {
          steps {
             sh(script: """
@@ -42,5 +51,13 @@ pipeline {
             """)
          }
       }
+      stage('Run Trivy') {
+         steps {
+            sh(script: """
+               trivy blackdentech/jenkins-course
+            """)
+         }
+      }
+      
    }
 }
